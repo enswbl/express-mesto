@@ -16,7 +16,7 @@ const getUsers = (req, res) => {
 };
 
 const getSpecificUser = (req, res) => {
-  User.findById(req.user._id)
+  User.findById(req.params.userId)
     .orFail(new Error('Пользователь с таким ID не найден'))
     .then((user) => res.send({ user }))
     .catch((err) => {
