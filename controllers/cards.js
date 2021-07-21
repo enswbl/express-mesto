@@ -19,9 +19,10 @@ const createCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new BadRequestError('Переданы некорректные данные');
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 const deleteCard = (req, res, next) => {
@@ -49,9 +50,10 @@ const likeCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         throw new BadRequestError('Карточка с таким ID не найдена');
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 const removeLikeCard = (req, res, next) => {
@@ -62,9 +64,10 @@ const removeLikeCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         throw new BadRequestError('Карточка с таким ID не найдена');
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 module.exports = {
