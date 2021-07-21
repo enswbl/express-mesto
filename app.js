@@ -36,7 +36,7 @@ app.use(auth, require('./routes/users'));
 app.use(auth, require('./routes/cards'));
 
 app.use('*', () => {
-  throw new NotFoundError('Запрашеваемый ресурс не найден');
+  throw new NotFoundError('Запрашиваемый ресурс не найден');
 });
 
 app.use((err, req, res, next) => {
