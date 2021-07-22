@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -19,13 +21,16 @@ const handleErrors = require('./middlewares/handleErrors');
 
 const NotFoundError = require('./errors/not-found-err');
 
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+
+const crashTest = require('./routes/crash-test');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
 app.use(helmet());
-app.use(errors());
 
 mongoose.connect(DATA_BASE, {
   useNewUrlParser: true,
@@ -34,6 +39,9 @@ mongoose.connect(DATA_BASE, {
   useUnifiedTopology: true,
 });
 
+app.use(requestLogger);
+
+app.use(crashTest);
 app.use(require('./routes/signup'));
 app.use(require('./routes/signin'));
 
@@ -43,6 +51,10 @@ app.use(auth, require('./routes/cards'));
 app.use('*', () => {
   throw new NotFoundError('Запрашиваемый ресурс не найден');
 });
+
+app.use(errorLogger);
+
+app.use(errors());
 
 app.use(handleErrors);
 
