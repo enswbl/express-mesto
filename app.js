@@ -14,7 +14,6 @@ const app = express();
 const { PORT, DATA_BASE } = require('./config');
 
 const { auth } = require('./middlewares/auth');
-const { login, createUser } = require('./controllers/users');
 
 const handleErrors = require('./middlewares/handleErrors');
 
@@ -35,8 +34,8 @@ mongoose.connect(DATA_BASE, {
   useUnifiedTopology: true,
 });
 
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.use(require('./routes/signup'));
+app.use(require('./routes/signin'));
 
 app.use(auth, require('./routes/users'));
 app.use(auth, require('./routes/cards'));
