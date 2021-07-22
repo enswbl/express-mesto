@@ -25,7 +25,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(helmet());
-app.use(errors());
 
 mongoose.connect(DATA_BASE, {
   useNewUrlParser: true,
@@ -43,6 +42,8 @@ app.use(auth, require('./routes/cards'));
 app.use('*', () => {
   throw new NotFoundError('Запрашиваемый ресурс не найден');
 });
+
+app.use(errors());
 
 app.use(handleErrors);
 
